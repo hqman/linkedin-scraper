@@ -79,4 +79,3 @@ The scraped data will be saved to the `data/` directory in JSON format:
 - The scraper uses browser automation to navigate LinkedIn, so it may take some time to complete.
 - LinkedIn may occasionally show CAPTCHA or verification screens, which can cause the scraping to fail.
 - Excessive use of this tool may lead to your LinkedIn account being temporarily restricted.
-# linkedin-scraper
