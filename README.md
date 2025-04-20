@@ -74,6 +74,18 @@ The scraped data will be saved to the `data/` directory in JSON format:
 - Profiles: `data/profile_username.json`
 - Companies: `data/company_companyname.json`
 
+### Using LLM to Extract Company Information from HTML
+
+The scraper utilizes a language model to extract structured information from LinkedIn company pages. This improves data extraction accuracy and helps parse complex HTML structures.
+
+To test the LLM extraction functionality:
+
+```bash
+pytest tests/test_llm.py
+```
+
+This will verify that the LLM can properly extract company information from HTML content.
+
 ## Notes
 
 - The scraper uses browser automation to navigate LinkedIn, so it may take some time to complete.
