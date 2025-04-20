@@ -1,0 +1,22 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+.env
+
+# Data
+data/
+
+# Logs
+logs/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.python-version
