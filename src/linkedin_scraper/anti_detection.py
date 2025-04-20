@@ -92,10 +92,8 @@ class AntiDetectionHandler:
         await page.add_init_script(
             """
         () => {
-            // 修改WebGL指纹
             const getParameter = WebGLRenderingContext.prototype.getParameter;
             WebGLRenderingContext.prototype.getParameter = function(parameter) {
-                // 使用随机值替换某些WebGL参数
                 if (parameter === 37445) {
                     return 'Intel Inc.';
                 }
@@ -112,27 +110,22 @@ class AntiDetectionHandler:
         await page.add_init_script(
             """
         () => {
-            // 覆盖webdriver属性
             Object.defineProperty(navigator, 'webdriver', {
                 get: () => false,
             });
             
-            // 添加语言插件
             Object.defineProperty(navigator, 'languages', {
                 get: () => ['zh-CN', 'zh', 'en-US', 'en'],
             });
             
-            // 修改硬件并发数
             Object.defineProperty(navigator, 'hardwareConcurrency', {
                 get: () => 8,
             });
             
-            // 修改设备内存
             Object.defineProperty(navigator, 'deviceMemory', {
                 get: () => 8,
             });
             
-            // 添加Chrome特有的属性
             if (!window.chrome) {
                 window.chrome = {
                     runtime: {},
@@ -142,7 +135,6 @@ class AntiDetectionHandler:
                 };
             }
             
-            // 添加Permissions API
             if (!window.Notification) {
                 window.Notification = {
                     permission: 'default'
