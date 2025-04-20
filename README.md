@@ -1,8 +1,8 @@
-# LinkedIn Scraper
+# 🔍 LinkedIn Scraper
 
 A tool to scrape LinkedIn profiles and company pages.
 
-## Installation
+## 🛠️ Installation
 
 1. Clone this repository
 2. Create a virtual environment and activate it
@@ -36,7 +36,7 @@ A tool to scrape LinkedIn profiles and company pages.
    .\venv\Scripts\activate
    ```
 
-## Configuration
+## ⚙️ Configuration
 
 Before using the scraper, you need to set up your LinkedIn credentials in the `.env` file:
 
@@ -52,21 +52,21 @@ Before using the scraper, you need to set up your LinkedIn credentials in the `.
    TOGETHER_API_KEY=your_api_key
    ```
 
-## Usage
+## 📋 Usage
 
 The LinkedIn scraper can be used to scrape either a LinkedIn profile or a company page.
 
-### Command Line Options
+### 💻 Command Line Options
 
 The scraper accepts the following command line arguments:
 
-- `--profile`: Specify that you want to scrape a LinkedIn profile
-- `--company`: Specify that you want to scrape a LinkedIn company page
+- `--profile`: Specify that you want to scrape a LinkedIn profile 👤
+- `--company`: Specify that you want to scrape a LinkedIn company page 🏢
 - `--name`: Specify the profile username or company name to scrape (required)
 
 Note: You must use either `--profile` or `--company`, but not both.
 
-### Examples
+### 📝 Examples
 
 1. To scrape a LinkedIn profile:
    ```bash
@@ -78,13 +78,13 @@ Note: You must use either `--profile` or `--company`, but not both.
    python run.py --company --name companyname
    ```
 
-### Output
+### 📤 Output
 
 The scraped data will be saved to the `data/` directory in JSON format:
 - Profiles: `data/profile_username.json`
 - Companies: `data/company_companyname.json`
 
-### Using LLM to Extract Company Information from HTML
+### 🤖 Using LLM to Extract Company Information from HTML
 
 The scraper utilizes a language model to extract structured information from LinkedIn company pages. This improves data extraction accuracy and helps parse complex HTML structures.
 
@@ -96,8 +96,8 @@ pytest tests/test_llm.py
 
 This will verify that the LLM can properly extract company information from HTML content.
 
-## Notes
+## ⚠️ Notes
 
-- The scraper uses browser automation to navigate LinkedIn, so it may take some time to complete.
-- LinkedIn may occasionally show CAPTCHA or verification screens, which can cause the scraping to fail.
-- Excessive use of this tool may lead to your LinkedIn account being temporarily restricted.
+- ⏱️ The scraper uses browser automation to navigate LinkedIn, so it may take some time to complete.
+- 🔒 LinkedIn may occasionally show CAPTCHA or verification screens, which can cause the scraping to fail.
+- ⚠️ Excessive use of this tool may lead to your LinkedIn account being temporarily restricted.
