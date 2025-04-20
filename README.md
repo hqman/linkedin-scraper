@@ -26,6 +26,16 @@ A tool to scrape LinkedIn profiles and company pages.
    uv sync
    ```
 
+5. Ensure your virtual environment is activated after running `uv sync`:
+
+   ```bash
+   # On macOS/Linux
+   source venv/bin/activate
+   
+   # On Windows
+   .\venv\Scripts\activate
+   ```
+
 ## Configuration
 
 Before using the scraper, you need to set up your LinkedIn credentials in the `.env` file:
