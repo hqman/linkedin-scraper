@@ -101,3 +101,10 @@ This will verify that the LLM can properly extract company information from HTML
 - ⏱️ The scraper uses browser automation to navigate LinkedIn, so it may take some time to complete.
 - 🔒 LinkedIn may occasionally show CAPTCHA or verification screens, which can cause the scraping to fail.
 - ⚠️ Excessive use of this tool may lead to your LinkedIn account being temporarily restricted.
+
+## 📚 References
+
+This project utilizes or is inspired by these excellent open-source projects:
+
+- [uv](https://github.com/astral-sh/uv) - An extremely fast Python package and project manager, written in Rust.
+- [python-blueprint](https://github.com/johnthagen/python-blueprint/) - A best practices template for Python projects.
