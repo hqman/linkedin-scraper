@@ -26,6 +26,37 @@ class ProfileScraper:
         self.profile_name = None
         os.makedirs(data_dir, exist_ok=True)
 
+    async def scrape_profile_html(self, page: Page, profile_name: str):
+        """
+        Scrape LinkedIn profile data
+
+        Args:
+            page: Playwright page object
+            profile_url: Profile URL
+
+        Returns:
+            str: Scraped    HTML
+        """
+        self.profile_name = profile_name
+        profile_url = f"{LINKEDIN_URL}/in/{profile_name}"
+        try:
+            logger.debug("step1: goto")
+            await page.goto(
+                profile_url, timeout=DEFAULT_TIMEOUT, wait_until="domcontentloaded"
+            )
+            # await self._random_sleep(1, 2)
+
+            logger.debug("step3: scroll page")
+            await self._scroll_page(page)
+
+            logger.debug("step5: save data")
+            html = await page.content()
+            return html
+
+        except Exception as e:
+            logger.debug(f"Error scraping profile: {e}")
+            return {"error": str(e)}
+
     async def scrape_profile(self, page: Page, profile_name: str):
         """
         Scrape LinkedIn profile data

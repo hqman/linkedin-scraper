@@ -2,6 +2,10 @@ import os
 import asyncio
 from typing import Literal
 
+from bs4 import BeautifulSoup
+
+from linkedin_scraper.utils.html_cleaner import clean_html
+
 from .config import DATA_DIR
 
 from .scrapers.linkedin import LinkedInScraper
@@ -50,6 +54,33 @@ async def scrape(
     finally:
         # Clean up resources
         await scraper.cleanup()
+
+
+async def scrape_html(type: Literal["profile", "company"], name: str):
+    scraper = LinkedInScraper(headless=True)
+    try:
+        # Initialize browser
+        await scraper.initialize_browser()
+        # Login to LinkedIn
+        login_success = await scraper.login()
+        if not login_success:
+            error("Login failed, cannot continue")
+
+        # Scrape the target
+        if type == "profile":
+            html = await scraper.scrape_profile_html(name)
+        else:
+            html = await scraper.scrape_company_html(name)
+        html = clean_html(html)
+        # bs4  main
+        soup = BeautifulSoup(html, "html.parser")
+        # main
+        main = soup.find("main")
+        # print(main.prettify())
+        return main.prettify().replace("\n", "")
+    except Exception as e:
+        error(f"Error occurred during scraping: {e}")
+        return ""
 
 
 if __name__ == "__main__":

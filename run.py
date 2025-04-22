@@ -1,7 +1,8 @@
 import asyncio
 import argparse
 from src.linkedin_scraper.logging import get_logger
-from src.linkedin_scraper.main import scrape
+from src.linkedin_scraper.main import scrape, scrape_html
+from src.linkedin_scraper.llm_extractor import extract_profile, extract_company
 
 logger = get_logger()
 
@@ -26,13 +27,33 @@ def main():
         "--name", required=True, help="Profile or company name to scrape"
     )
 
+    # Add llm parameter
+    parser.add_argument(
+        "--llm", action="store_true", help="Use LLM extraction on scraped HTML"
+    )
+
     args = parser.parse_args()
 
     # Determine target type
     target_type = "profile" if args.profile else "company"
 
     # Run scrape job
-    asyncio.run(scrape(args.name, target_type))
+    if args.llm:
+        # Use scrape_html and LLM extractor
+        async def run_llm_extraction():
+            html = await scrape_html(type=target_type, name=args.name)
+
+            if target_type == "profile":
+                result = extract_profile(html)
+            else:
+                result = extract_company(html)
+
+            print(result)
+
+        asyncio.run(run_llm_extraction())
+    else:
+        # Use regular scrape
+        asyncio.run(scrape(args.name, target_type))
 
 
 if __name__ == "__main__":

@@ -26,6 +26,35 @@ class CompanyScraper:
         self.data_dir = data_dir
         os.makedirs(data_dir, exist_ok=True)
 
+    async def scrape_company_html(self, page: Page, company_name: str):
+        """
+        Scrape LinkedIn company profile
+
+        Args:
+            page: Playwright page object
+            company_url: Company profile URL
+
+        Returns:
+            str: Scraped company profile HTML
+        """
+        logger.debug(f"Scraping company profile: {company_name}")
+
+        # try:
+        # Visit company page
+        company_url = f"{LINKEDIN_URL}/company/{company_name}/"
+
+        await page.goto(company_url)
+        # await page.wait_for_load_state("networkidle")
+
+        # Ensure JavaScript execution completes
+        await page.wait_for_selector("body")
+
+        # Scroll the page to load more content
+        await self._scroll_page(page)
+        # Get page content
+        page_content = await page.content()
+        return page_content
+
     async def scrape_company(self, page: Page, company_name: str):
         """
         Scrape LinkedIn company profile

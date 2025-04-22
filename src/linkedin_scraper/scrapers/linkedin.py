@@ -1,4 +1,5 @@
 import json
+import httpx
 from playwright.async_api import async_playwright
 
 from ..config import (
@@ -24,12 +25,13 @@ from ..logging import debug, error
 class LinkedInScraper:
     """Main LinkedIn scraper class that orchestrates the scraping process."""
 
-    def __init__(self) -> None:
+    def __init__(self, headless=None) -> None:
         """Initialize the LinkedIn scraper."""
         self.playwright = None
         self.browser = None
         self.context = None
         self.page = None
+        self.headless = headless if headless is not None else HEADLESS
         self.anti_detection = AntiDetectionHandler()
         self.auth_handler = LinkedInAuthHandler(
             username=LINKEDIN_USERNAME,
@@ -49,7 +51,7 @@ class LinkedInScraper:
 
         # Launch browser
         self.browser = await self.playwright.chromium.launch(
-            headless=HEADLESS,
+            headless=self.headless,
             slow_mo=SLOW_MO,  # Control browser operation delay (ms)
             args=browser_options.get("args", []),
         )
@@ -152,10 +154,20 @@ class LinkedInScraper:
         profile_scraper = ProfileScraper(data_dir=DATA_DIR)
         await profile_scraper.scrape_profile(self.page, profile_name)
 
+    async def scrape_profile_html(self, profile_name: str) -> str:
+        """Scrape a LinkedIn profile."""
+        profile_scraper = ProfileScraper(data_dir=DATA_DIR)
+        return await profile_scraper.scrape_profile_html(self.page, profile_name)
+
     async def scrape_company(self, company_name: str) -> None:
         """Scrape a LinkedIn company profile."""
         company_scraper = CompanyScraper(data_dir=DATA_DIR)
         await company_scraper.scrape_company(self.page, company_name)
+
+    async def scrape_company_html(self, company_name: str) -> str:
+        """Scrape a LinkedIn company profile."""
+        company_scraper = CompanyScraper(data_dir=DATA_DIR)
+        return await company_scraper.scrape_company_html(self.page, company_name)
 
     async def cleanup(self) -> None:
         """Close browser and Playwright."""
@@ -163,3 +175,35 @@ class LinkedInScraper:
             await self.browser.close()
         if self.playwright:
             await self.playwright.stop()
+
+
+def get_profile_html(profile_name: str) -> str:
+    """Get the HTML content of a LinkedIn profile."""
+    url = f"https://www.linkedin.com/in/{profile_name}"
+    # load cookies from file
+    with open(COOKIES_PATH, "r") as f:
+        cookies = json.load(f)
+
+    # Create cookie jar and client
+    cookies_jar = httpx.Cookies()
+    for cookie in cookies:
+        cookies_jar.set(
+            cookie["name"],
+            cookie["value"],
+            domain=cookie["domain"],
+            path=cookie.get("path", "/"),
+        )
+
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,"
+        "image/webp,image/apng,*/*;q=0.8,"
+        "application/signed-exchange;v=b3;q=0.9",
+        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+    }
+
+    # Create client with cookies
+    client = httpx.Client(cookies=cookies_jar, headers=headers)
+    response = client.get(url)
+
+    return response.text

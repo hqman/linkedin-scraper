@@ -63,6 +63,7 @@ The scraper accepts the following command line arguments:
 - `--profile`: Specify that you want to scrape a LinkedIn profile 👤
 - `--company`: Specify that you want to scrape a LinkedIn company page 🏢
 - `--name`: Specify the profile username or company name to scrape (required)
+- `--llm`: Enable LLM-powered extraction to improve data quality 🤖
 
 Note: You must use either `--profile` or `--company`, but not both.
 
@@ -78,15 +79,34 @@ Note: You must use either `--profile` or `--company`, but not both.
    python run.py --company --name companyname
    ```
 
+3. To scrape a LinkedIn profile with LLM extraction:
+   ```bash
+   python run.py --profile --name username --llm
+   ```
+
+4. To scrape a LinkedIn company page with LLM extraction:
+   ```bash
+   python run.py --company --name companyname --llm
+   ```
+
 ### 📤 Output
 
 The scraped data will be saved to the `data/` directory in JSON format:
 - Profiles: `data/profile_username.json`
 - Companies: `data/company_companyname.json`
 
-### 🤖 Using LLM to Extract Company Information from HTML
+### 🤖 LLM Data Extraction
 
-The scraper utilizes a language model to extract structured information from LinkedIn company pages. This improves data extraction accuracy and helps parse complex HTML structures.
+The scraper includes an advanced LLM (Large Language Model) extraction feature that significantly improves data quality:
+
+- **How it works**: Rather than relying purely on traditional HTML parsing, the `--llm` flag activates the LLM extractor that processes the raw HTML through the Together AI platform.
+- **Advantages**: 
+  - Extracts structured data even from complex HTML layouts
+  - Better handles dynamic content and varied page structures
+  - Produces more consistent JSON output format
+  - Intelligently identifies relevant information from profile/company pages
+
+The LLM extractor uses the DeepSeek-V3 model via the Together API to transform raw HTML into well-structured profile or company data.
 
 To test the LLM extraction functionality:
 
@@ -94,7 +114,7 @@ To test the LLM extraction functionality:
 pytest tests/test_llm.py
 ```
 
-This will verify that the LLM can properly extract company information from HTML content.
+This will verify that the LLM can properly extract information from HTML content.
 
 ## ⚠️ Notes
 

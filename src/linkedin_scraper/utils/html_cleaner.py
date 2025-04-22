@@ -71,6 +71,7 @@ class HTMLCleaner:
             "template",
             "slot",
             "portal",
+            "code",
         }
 
         # Default attributes to remove
