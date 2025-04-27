@@ -57,15 +57,15 @@ class LinkedInAuthHandler:
 
         # If no cookies or cookies are invalid, perform login process
         await page.goto(LINKEDIN_LOGIN_URL)
-        self._random_sleep(1, 2)
+        # self._random_sleep(1, 2)
 
         # Enter username and password
         logger.debug(f"Entering username: {self.username}")
         logger.debug(f"Entering password: {self.password}")
         await page.fill("input#username", self.username)
-        self._random_sleep(1, 2)
+        # self._random_sleep(1, 2)
         await page.fill("input#password", self.password)
-        self._random_sleep(1, 2)
+        # self._random_sleep(1, 2)
 
         # Click login button
         await page.click('button[type="submit"]')
@@ -237,7 +237,7 @@ class LinkedInAuthHandler:
             try:
                 await recaptcha_iframe.locator("div.recaptcha-checkbox-border").click()
                 # Wait for a while to see if it passes automatically
-                self._random_sleep(3, 5)
+                # self._random_sleep(3, 5)
 
                 # If image CAPTCHA appears, may require manual intervention
                 if await page.is_visible('iframe[title*="challenge"]'):
@@ -255,7 +255,7 @@ class LinkedInAuthHandler:
 
         # Wait for page change after CAPTCHA is handled
         await page.wait_for_load_state("networkidle")
-        self._random_sleep(2, 4)
+        # self._random_sleep(2, 4)
 
         # Check if CAPTCHA still exists
         if await self.detect_captcha(page):
@@ -355,7 +355,7 @@ class LinkedInAuthHandler:
 
         # Wait for page change after verification is complete
         await page.wait_for_load_state("networkidle")
-        self._random_sleep(2, 4)
+        # self._random_sleep(2, 4)
 
     def _random_sleep(self, min_seconds=1, max_seconds=5):
         """

@@ -75,7 +75,7 @@ class ProfileScraper:
             await page.goto(
                 profile_url, timeout=DEFAULT_TIMEOUT, wait_until="domcontentloaded"
             )
-            await self._random_sleep(1, 2)
+            # await self._random_sleep(1, 2)
 
             # Check if page loaded successfully
             if await page.title() == "":
