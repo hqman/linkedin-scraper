@@ -43,7 +43,7 @@ def llm_call_company(
         },
     )
     output = json.loads(response.choices[0].message.content)
-    logger.debug(json.dumps(output, indent=2))
+    # logger.debug(json.dumps(output, indent=2))
     return output
 
 
@@ -68,7 +68,7 @@ def llm_call_profile(
         },
     )
     output = json.loads(response.choices[0].message.content)
-    logger.debug(json.dumps(output, indent=2))
+    # logger.debug(json.dumps(output, indent=2))
     return output
 
 

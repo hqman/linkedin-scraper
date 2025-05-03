@@ -1,5 +1,6 @@
 import asyncio
 import argparse
+import json
 from src.linkedin_scraper.logging import get_logger
 from src.linkedin_scraper.main import scrape, scrape_html
 from src.linkedin_scraper.llm_extractor import extract_profile, extract_company
@@ -48,7 +49,8 @@ def main():
             else:
                 result = extract_company(html)
 
-            print(result)
+            # pretty print the result
+            print(json.dumps(result, indent=4))
 
         asyncio.run(run_llm_extraction())
     else:

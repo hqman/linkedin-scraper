@@ -4,7 +4,7 @@ from typing import Literal
 
 from bs4 import BeautifulSoup
 
-from linkedin_scraper.utils.html_cleaner import clean_html
+from .utils.html_cleaner import clean_html
 
 from .config import DATA_DIR
 
